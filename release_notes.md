@@ -7,6 +7,30 @@ This section lists features in master, available by [AppVeyor](https://ci.appvey
 
 ## Master ##
 
+## Binary Serialization Fixes
+
+* MessageBody  nows store the character encoding type (defaults to UTF8) to allow correct conversion back to a string when using Value property
+* Use a CharacterEncoding.Raw for binary content (will be a Base64 string for Value)
+* Kafka transport payload is now byte[] and not string. This prevents corruption of Kafka 'header' of 5 bytes to store schema registry when used with schema registry support
+* DynamoDb now uses a byte[] and not a string for the message body to prevent lossy conversions
+* ContentType on Header is set from Body, if not set on the Header
+
+## Kafka Fixes
+
+* Kafka now serliases the ReplyTo Header correctly
+
+## New Transforms
+
+* Compression Transform now available to compress messages using Gzip (or Brotli or Deflate on .NET 6 or 7)
+
+
+## Release 9.3.6 ##
+
+- Set correct partition key (kafka key) for Kafka messages  
+- Add default option for Header bags serialisation 
+- Set correct span status for Send and SendAsync @easyfy-fredrik
+- Note that this version pulls v7 of System.Text.Json which has breaking changes for users of System.Text.Json, see https://devblogs.microsoft.com/dotnet/system-text-json-in-dotnet-7/#breaking-changes
+
 ## Release 9.3.0 ##
 - Bug with DynamoDb Outbox and the Outbox Sweeper fixed. The Sweeper required a topic argument supplied by a dictionary of args
   - Required adding a Dictionary<string, object> to various interfaces, which defaults to null, hence the minor version bump as these interfaces have new capabiities

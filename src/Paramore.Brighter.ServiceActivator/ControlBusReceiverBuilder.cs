@@ -173,8 +173,8 @@ namespace Paramore.Brighter.ServiceActivator.ControlBus
 
             return DispatchBuilder.With()
                 .CommandProcessorFactory(() => new CommandProcessorProvider(commandProcessor))
-                .MessageMappers(incomingMessageMapperRegistry)
-                .DefaultChannelFactory(_channelFactory)
+                .MessageMappers(incomingMessageMapperRegistry, null)
+                .DefaultChannelFactory(_channelFactory)                                        
                 .Subscriptions(subscriptions)
                 .Build();
         }
@@ -215,6 +215,11 @@ namespace Paramore.Brighter.ServiceActivator.ControlBus
                 Dictionary<string, object> args = null)
             {
                 return new Message[0]; 
+            }
+
+            public void Delete(params Guid[] messageIds)
+            {
+                //ignore
             }
 
             public IEnumerable<Message> OutstandingMessages(TimeSpan millSecondsSinceSent)
